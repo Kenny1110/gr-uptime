@@ -1,0 +1,52 @@
+name: uptime
+
+on:
+  schedule:
+    # Toutes les 15 minutes. GitHub peut retarder les crons de plusieurs minutes
+    # en periode de charge : compter 15 a 30 min entre la panne et l'alerte.
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: uptime
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verifier les services
+        id: probe
+        continue-on-error: true
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          ALERT_TO: ${{ secrets.ALERT_TO }}
+          ALERT_FROM: ${{ secrets.ALERT_FROM }}
+        run: python3 scripts/check.py
+
+      - name: Enregistrer l'etat
+        run: |
+          if git diff --quiet -- state.json; then
+            echo "Etat inchange, rien a commiter."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          git commit -m "uptime: changement d'etat [skip ci]"
+          git push
+
+      # Place apres le commit d'etat : si le probe echoue, l'etat est quand meme
+      # sauvegarde, sinon la meme panne re-alerterait a chaque run.
+      - name: Propager l'echec
+        if: steps.probe.outcome == 'failure'
+        run: |
+          echo "Au moins un service est hors ligne."
+          exit 1

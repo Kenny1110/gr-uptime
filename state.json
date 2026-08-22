@@ -1,0 +1,22 @@
+{
+  "CRM Good & Right": {
+    "up": true,
+    "detail": "HTTP 200",
+    "checked": "22/08/2026 17:51 UTC"
+  },
+  "Diagnostic e-facture": {
+    "up": true,
+    "detail": "HTTP 200",
+    "checked": "22/08/2026 17:51 UTC"
+  },
+  "Blog": {
+    "up": true,
+    "detail": "HTTP 200",
+    "checked": "22/08/2026 17:51 UTC"
+  },
+  "Le Declic": {
+    "up": false,
+    "detail": "injoignable ([Errno 8] nodename nor servname provided, or not known)",
+    "checked": "22/08/2026 17:51 UTC"
+  }
+}

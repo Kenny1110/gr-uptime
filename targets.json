@@ -1,0 +1,22 @@
+[
+  {
+    "name": "CRM Good & Right",
+    "url": "https://crm.goodandright.fr/accounts/login/",
+    "expect": 200
+  },
+  {
+    "name": "Diagnostic e-facture",
+    "url": "https://diagnostic.goodandright.fr/",
+    "expect": 200
+  },
+  {
+    "name": "Blog",
+    "url": "https://blog.goodandright.fr/",
+    "expect": 200
+  },
+  {
+    "name": "Le Declic",
+    "url": "https://declic.goodandright.fr/",
+    "expect": 200
+  }
+]
