@@ -10,8 +10,8 @@
     "checked": "22/08/2026 17:53 UTC"
   },
   "Blog": {
-    "up": true,
-    "detail": "HTTP 200",
+    "up": false,
+    "detail": "test de bout en bout",
     "checked": "22/08/2026 17:53 UTC"
   },
   "Le Declic": {
