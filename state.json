@@ -2,21 +2,21 @@
   "CRM Good & Right": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "24/08/2026 22:57 UTC"
+    "checked": "24/08/2026 23:29 UTC"
   },
   "Diagnostic e-facture": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "24/08/2026 22:57 UTC"
+    "checked": "24/08/2026 23:29 UTC"
   },
   "Blog": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "24/08/2026 22:57 UTC"
+    "checked": "24/08/2026 23:29 UTC"
   },
   "Le Declic": {
     "up": false,
     "detail": "injoignable ([Errno -2] Name or service not known)",
-    "checked": "24/08/2026 22:57 UTC"
+    "checked": "24/08/2026 23:29 UTC"
   }
 }
