@@ -15,8 +15,8 @@
     "checked": "02/09/2026 11:05 UTC"
   },
   "Le Declic": {
-    "up": true,
-    "detail": "HTTP 200",
+    "up": false,
+    "detail": "test canal Brevo 3",
     "checked": "02/09/2026 11:05 UTC"
   }
 }
