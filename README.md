@@ -28,7 +28,16 @@ D'ou ce repo. Il tourne sur GitHub Actions, c'est-a-dire ailleurs.
 - Un mail est aussi envoye au retour a la normale.
 
 Deux canaux de notification, pour que la panne d'un canal ne masque pas la panne reelle :
-le mail Brevo, et le run GitHub qui passe au rouge (GitHub envoie sa propre notification).
+le mail Resend, et le run GitHub qui passe au rouge (GitHub envoie sa propre notification).
+
+Et si le canal mail tombe, le run passe au rouge lui aussi. Un moniteur dont l'alerte
+ne part plus est en panne, meme quand tous les services repondent : c'est exactement ce
+qui s'est produit du 22/08 au 02/09/2026 sans que rien ne le signale.
+
+L'envoi passe par Resend et non par Brevo : le compte Brevo restreint ses cles API a une
+liste d'IP autorisees, or les runners GitHub Actions changent d'IP a chaque run. Tous les
+envois repondaient 401 depuis la creation du repo. Ne pas y revenir sans desactiver
+d'abord cette restriction cote Brevo.
 
 ## Configuration
 
@@ -36,9 +45,9 @@ Trois secrets a definir dans `Settings > Secrets and variables > Actions` :
 
 | Secret | Role |
 |---|---|
-| `BREVO_API_KEY` | Cle API Brevo pour l'envoi |
+| `RESEND_API_KEY` | Cle API Resend pour l'envoi |
 | `ALERT_TO` | Destinataire des alertes |
-| `ALERT_FROM` | Expediteur, doit etre un domaine verifie dans Brevo |
+| `ALERT_FROM` | Expediteur, doit etre sur un domaine verifie dans Resend |
 
 Pour surveiller un service de plus, ajouter une entree dans `targets.json`. Rien d'autre.
 

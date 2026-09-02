@@ -5,9 +5,14 @@ Tourne dans GitHub Actions, donc en dehors de Railway : si Railway tombe, ce scr
 continue de tourner et peut prevenir. C'est tout l'interet.
 
 Variables d'environnement attendues :
-  BREVO_API_KEY  cle API Brevo (secret GitHub)
-  ALERT_TO       destinataire des alertes (secret GitHub)
-  ALERT_FROM     expediteur, doit etre un domaine verifie dans Brevo
+  RESEND_API_KEY  cle API Resend (secret GitHub)
+  ALERT_TO        destinataire des alertes (secret GitHub)
+  ALERT_FROM      expediteur, doit etre sur un domaine verifie dans Resend
+
+Resend et non Brevo : le compte Brevo restreint ses cles API a une liste d'IP
+autorisees, et les runners GitHub Actions changent d'IP a chaque run. L'envoi
+echouait donc systematiquement en 401 depuis la creation du repo, sans que
+personne ne le voie.
 """
 
 import json
@@ -68,26 +73,28 @@ def probe(url, expect):
 
 
 def send_mail(subject, lines):
-    key = os.environ.get("BREVO_API_KEY")
+    key = os.environ.get("RESEND_API_KEY")
     to = os.environ.get("ALERT_TO")
     sender = os.environ.get("ALERT_FROM", to)
     if not key or not to:
-        print("!! BREVO_API_KEY ou ALERT_TO absent, pas d'envoi de mail", file=sys.stderr)
+        print("!! RESEND_API_KEY ou ALERT_TO absent, pas d'envoi de mail", file=sys.stderr)
         return False
 
     body = {
-        "sender": {"email": sender, "name": "Monitoring Good & Right"},
-        "to": [{"email": to}],
+        "from": f"Monitoring Good & Right <{sender}>",
+        "to": [to],
         "subject": subject,
-        "textContent": "\n".join(lines),
+        "text": "\n".join(lines),
     }
     req = urllib.request.Request(
-        "https://api.brevo.com/v3/smtp/email",
+        "https://api.resend.com/emails",
         data=json.dumps(body).encode(),
         headers={
-            "api-key": key,
+            "authorization": f"Bearer {key}",
             "content-type": "application/json",
-            "accept": "application/json",
+            # Sans User-Agent explicite, urllib s'annonce "Python-urllib/3.x" et le
+            # Cloudflare devant l'API Resend repond 403 code 1010.
+            "user-agent": "gr-uptime/1.0 (+github-actions)",
         },
         method="POST",
     )
@@ -96,9 +103,9 @@ def send_mail(subject, lines):
             print(f"mail envoye a {to} (HTTP {resp.status})")
             return True
     except urllib.error.HTTPError as exc:
-        # Le code seul ne suffit pas a diagnostiquer : Brevo renvoie 401 aussi bien
-        # pour une cle revoquee que pour un appel depuis une IP non autorisee, et
-        # seul le corps de la reponse fait la difference.
+        # Le code seul ne suffit pas a diagnostiquer : un 401 peut venir d'une cle
+        # revoquee comme d'une restriction d'IP, et un 403 d'un domaine expediteur
+        # non verifie. Seul le corps de la reponse fait la difference.
         try:
             body = exc.read().decode(errors="replace")[:500]
         except Exception:  # noqa: BLE001
@@ -134,6 +141,8 @@ def main():
 
     # On n'envoie un mail que sur changement d'etat. Sinon une panne d'un week-end
     # produirait 200 mails identiques et on finirait par tous les ignorer.
+    mail_failed = False
+
     if went_down:
         noms = ", ".join(n for n, _, _ in went_down)
         lines = [f"Services hors ligne detectes le {now} :", ""]
@@ -146,19 +155,33 @@ def main():
             "Rappel : le 20/08/2026 la panne venait d'un abonnement Railway annule",
             "pour impaye, pas d'un bug applicatif.",
         ]
-        send_mail(f"[ALERTE] {noms} hors ligne", lines)
+        if not send_mail(f"[ALERTE] {noms} hors ligne", lines):
+            mail_failed = True
 
     if came_back:
         noms = ", ".join(n for n, _ in came_back)
         lines = [f"Retour en ligne le {now} :", ""]
         lines += [f"  - {n}\n    {u}\n" for n, u in came_back]
-        send_mail(f"[OK] {noms} de nouveau en ligne", lines)
+        if not send_mail(f"[OK] {noms} de nouveau en ligne", lines):
+            mail_failed = True
 
     down = [n for n, s in current.items() if not s["up"]]
     if down:
         # Sortie en erreur : GitHub marque le run en rouge et envoie sa propre
-        # notification, ce qui fait un deuxieme canal si Brevo est indisponible.
+        # notification, ce qui fait un deuxieme canal si le mail est indisponible.
         print(f"\n{len(down)} service(s) hors ligne : {', '.join(down)}", file=sys.stderr)
+        return 1
+
+    if mail_failed:
+        # Un canal d'alerte muet est une panne a part entiere. Sans cette sortie en
+        # erreur, l'echec d'envoi ne serait visible que dans un log de run vert, que
+        # personne ne lit : c'est precisement ce qui a masque le blocage Brevo
+        # pendant onze jours.
+        print(
+            "\nTous les services repondent, mais une alerte n'a pas pu etre envoyee. "
+            "Le canal mail est hors service, voir l'erreur ci-dessus.",
+            file=sys.stderr,
+        )
         return 1
 
     print(f"\nTous les services repondent ({len(targets)} verifies).")

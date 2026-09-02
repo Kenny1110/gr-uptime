@@ -26,7 +26,7 @@ jobs:
         id: probe
         continue-on-error: true
         env:
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           ALERT_TO: ${{ secrets.ALERT_TO }}
           ALERT_FROM: ${{ secrets.ALERT_FROM }}
         run: python3 scripts/check.py
