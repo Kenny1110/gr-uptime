@@ -2,21 +2,21 @@
   "CRM Good & Right": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "02/09/2026 11:36 UTC"
+    "checked": "02/09/2026 11:48 UTC"
   },
   "Diagnostic e-facture": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "02/09/2026 11:36 UTC"
+    "checked": "02/09/2026 11:48 UTC"
   },
   "Blog": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "02/09/2026 11:36 UTC"
+    "checked": "02/09/2026 11:48 UTC"
   },
   "Le Declic": {
-    "up": false,
-    "detail": "test canal Resend",
-    "checked": "02/09/2026 11:36 UTC"
+    "up": true,
+    "detail": "HTTP 200",
+    "checked": "02/09/2026 11:48 UTC"
   }
 }
