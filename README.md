@@ -50,3 +50,8 @@ Pour surveiller un service de plus, ajouter une entree dans `targets.json`. Rien
   Les commits de `state.json` par le bot devraient suffire a maintenir l'activite,
   mais c'est a verifier au bout de deux mois.
 - Ce repo verifie qu'une page repond. Il ne verifie pas qu'elle est correcte.
+- Le Declic est surveille via son URL Railway directe, pas via
+  `declic.goodandright.fr`. Le domaine personnalise a saute le 22/08/2026 :
+  CNAME et TXT de verification absents de la zone Gandi, domaine detache cote
+  Railway. L'application tourne toujours. A rebasculer sur le domaine custom
+  une fois celui-ci remis en service.

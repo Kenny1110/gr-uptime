@@ -16,7 +16,8 @@
   },
   {
     "name": "Le Declic",
-    "url": "https://declic.goodandright.fr/",
-    "expect": 200
+    "url": "https://web-production-f847c.up.railway.app/",
+    "expect": 200,
+    "note": "URL Railway directe et non declic.goodandright.fr : le domaine custom a saute le 22/08/2026 (CNAME et TXT absents de la zone Gandi, domaine detache cote Railway). L'application, elle, tourne. A rebasculer sur le domaine custom quand il sera remis en service."
   }
 ]
