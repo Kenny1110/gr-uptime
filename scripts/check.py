@@ -95,6 +95,16 @@ def send_mail(subject, lines):
         with urllib.request.urlopen(req, timeout=20) as resp:
             print(f"mail envoye a {to} (HTTP {resp.status})")
             return True
+    except urllib.error.HTTPError as exc:
+        # Le code seul ne suffit pas a diagnostiquer : Brevo renvoie 401 aussi bien
+        # pour une cle revoquee que pour un appel depuis une IP non autorisee, et
+        # seul le corps de la reponse fait la difference.
+        try:
+            body = exc.read().decode(errors="replace")[:500]
+        except Exception:  # noqa: BLE001
+            body = "(corps illisible)"
+        print(f"!! echec envoi mail : HTTP {exc.code} {body}", file=sys.stderr)
+        return False
     except Exception as exc:  # noqa: BLE001
         print(f"!! echec envoi mail : {exc}", file=sys.stderr)
         return False
