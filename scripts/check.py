@@ -36,7 +36,25 @@ RETRY_WAIT = 6
 TIMEOUT = 15
 
 
-def probe(url, expect):
+def verifier_contenu(body, must_contain, min_count):
+    """Retourne None si le contenu est conforme, sinon la raison de l'echec.
+
+    Un code HTTP 200 ne dit pas si le fichier fait son travail. Le robots.txt de
+    goodandright.fr a longtemps repondu 200 avec un corps de zero octet, et un
+    moniteur qui ne regarde que le statut l'aurait declare en bonne sante. De meme,
+    un sitemap peut repondre 200 en ne listant plus aucune URL.
+    """
+    for aiguille in must_contain or []:
+        if aiguille not in body:
+            return f"« {aiguille} » absent du contenu"
+    for aiguille, minimum in (min_count or {}).items():
+        trouve = body.count(aiguille)
+        if trouve < minimum:
+            return f"{trouve} occurrence(s) de « {aiguille} », minimum attendu {minimum}"
+    return None
+
+
+def probe(url, expect, must_contain=None, min_count=None):
     """Retourne (ok, detail). Reessaie avant de conclure a une panne."""
     last = "aucune tentative"
     for attempt in range(1, ATTEMPTS + 1):
@@ -53,12 +71,22 @@ def probe(url, expect):
                 fallback = resp.headers.get("x-railway-fallback")
                 if fallback:
                     last = f"HTTP {code}, aucun service Railway derriere le domaine"
-                elif code == expect:
+                elif code != expect:
+                    last = f"HTTP {code}, attendu {expect}"
+                elif not (must_contain or min_count):
                     return True, f"HTTP {code}"
                 else:
-                    last = f"HTTP {code}, attendu {expect}"
+                    # Corps lu uniquement quand une cible declare des assertions,
+                    # pour ne pas telecharger les pages HTML des autres cibles.
+                    body = resp.read().decode("utf-8", "replace")
+                    probleme = verifier_contenu(body, must_contain, min_count)
+                    if probleme is None:
+                        return True, f"HTTP {code}, contenu conforme"
+                    last = f"HTTP {code} mais {probleme}"
         except urllib.error.HTTPError as exc:
-            if exc.code == expect:
+            # Un statut attendu mais servi via une erreur HTTP ne permet pas de
+            # verifier les assertions de contenu : on ne conclut pas au succes.
+            if exc.code == expect and not (must_contain or min_count):
                 return True, f"HTTP {exc.code}"
             last = f"HTTP {exc.code}"
         except urllib.error.URLError as exc:
@@ -126,7 +154,12 @@ def main():
 
     for target in targets:
         name, url = target["name"], target["url"]
-        ok, detail = probe(url, target.get("expect", 200))
+        ok, detail = probe(
+            url,
+            target.get("expect", 200),
+            target.get("must_contain"),
+            target.get("min_count"),
+        )
         current[name] = {"up": ok, "detail": detail, "checked": now}
 
         was_up = previous.get(name, {}).get("up", True)
