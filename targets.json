@@ -28,8 +28,9 @@
       "<urlset"
     ],
     "min_count": {
-      "<loc>": 40,
-      "management-de-transition": 20
+      "<loc>": 48,
+      "management-de-transition": 20,
+      "/secteurs/": 5
     },
     "note": "La generation du sitemap a ete desactivee dans Webflow entre novembre 2025 et septembre 2026. L'URL renvoyait 404, Google n'a jamais explore les 20 pages Management de transition, et personne ne s'en est apercu pendant dix mois. Etat au 17/09/2026 : 46 URLs dont 21 sous /management-de-transition/. Les seuils sont volontairement places sous ces valeurs pour tolerer la suppression d'une page isolee sans declencher d'alerte."
   },
