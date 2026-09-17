@@ -2,47 +2,31 @@
   "CRM Good & Right": {
     "up": true,
     "detail": "HTTP 200",
-<<<<<<< HEAD
-    "checked": "17/09/2026 05:09 UTC"
-=======
-    "checked": "17/09/2026 08:00 UTC"
->>>>>>> c28907b (uptime: surveiller le sitemap et le robots.txt de goodandright.fr)
+    "checked": "17/09/2026 08:01 UTC"
   },
   "Diagnostic e-facture": {
     "up": true,
     "detail": "HTTP 200",
-<<<<<<< HEAD
-    "checked": "17/09/2026 05:09 UTC"
-=======
-    "checked": "17/09/2026 08:00 UTC"
->>>>>>> c28907b (uptime: surveiller le sitemap et le robots.txt de goodandright.fr)
+    "checked": "17/09/2026 08:01 UTC"
   },
   "Blog": {
     "up": true,
     "detail": "HTTP 200",
-<<<<<<< HEAD
-    "checked": "17/09/2026 05:09 UTC"
-=======
-    "checked": "17/09/2026 08:00 UTC"
->>>>>>> c28907b (uptime: surveiller le sitemap et le robots.txt de goodandright.fr)
+    "checked": "17/09/2026 08:01 UTC"
   },
   "Le Declic": {
     "up": true,
     "detail": "HTTP 200",
-<<<<<<< HEAD
-    "checked": "17/09/2026 05:09 UTC"
-=======
-    "checked": "17/09/2026 08:00 UTC"
+    "checked": "17/09/2026 08:01 UTC"
   },
   "Sitemap goodandright.fr": {
     "up": true,
     "detail": "HTTP 200, contenu conforme",
-    "checked": "17/09/2026 08:00 UTC"
+    "checked": "17/09/2026 08:01 UTC"
   },
   "robots.txt goodandright.fr": {
     "up": true,
     "detail": "HTTP 200, contenu conforme",
-    "checked": "17/09/2026 08:00 UTC"
->>>>>>> c28907b (uptime: surveiller le sitemap et le robots.txt de goodandright.fr)
+    "checked": "17/09/2026 08:01 UTC"
   }
 }
