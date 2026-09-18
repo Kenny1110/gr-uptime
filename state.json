@@ -2,31 +2,31 @@
   "CRM Good & Right": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "18/09/2026 09:47 UTC"
+    "checked": "18/09/2026 14:13 UTC"
   },
   "Diagnostic e-facture": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "18/09/2026 09:47 UTC"
+    "checked": "18/09/2026 14:13 UTC"
   },
   "Blog": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "18/09/2026 09:47 UTC"
+    "checked": "18/09/2026 14:13 UTC"
   },
   "Le Declic": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "18/09/2026 09:47 UTC"
+    "checked": "18/09/2026 14:13 UTC"
   },
   "Sitemap goodandright.fr": {
     "up": true,
     "detail": "HTTP 200, contenu conforme",
-    "checked": "18/09/2026 09:47 UTC"
+    "checked": "18/09/2026 14:13 UTC"
   },
   "robots.txt goodandright.fr": {
     "up": true,
     "detail": "HTTP 200, contenu conforme",
-    "checked": "18/09/2026 09:47 UTC"
+    "checked": "18/09/2026 14:13 UTC"
   }
 }
