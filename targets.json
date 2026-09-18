@@ -1,46 +1,46 @@
 [
-  {
-    "name": "CRM Good & Right",
-    "url": "https://crm.goodandright.fr/accounts/login/",
-    "expect": 200
+ {
+  "name": "CRM Good & Right",
+  "url": "https://crm.goodandright.fr/accounts/login/",
+  "expect": 200
+ },
+ {
+  "name": "Diagnostic e-facture",
+  "url": "https://diagnostic.goodandright.fr/",
+  "expect": 200
+ },
+ {
+  "name": "Blog",
+  "url": "https://blog.goodandright.fr/",
+  "expect": 200
+ },
+ {
+  "name": "Le Declic",
+  "url": "https://web-production-f847c.up.railway.app/",
+  "expect": 200,
+  "note": "URL Railway directe et non declic.goodandright.fr : le domaine custom a saute le 22/08/2026 (CNAME et TXT absents de la zone Gandi, domaine detache cote Railway). L'application, elle, tourne. A rebasculer sur le domaine custom quand il sera remis en service."
+ },
+ {
+  "name": "Sitemap goodandright.fr",
+  "url": "https://www.goodandright.fr/sitemap.xml",
+  "expect": 200,
+  "must_contain": [
+   "<urlset"
+  ],
+  "min_count": {
+   "<loc>": 48,
+   "management-de-transition": 20,
+   "/nos-practices-expertes/": 10
   },
-  {
-    "name": "Diagnostic e-facture",
-    "url": "https://diagnostic.goodandright.fr/",
-    "expect": 200
-  },
-  {
-    "name": "Blog",
-    "url": "https://blog.goodandright.fr/",
-    "expect": 200
-  },
-  {
-    "name": "Le Declic",
-    "url": "https://web-production-f847c.up.railway.app/",
-    "expect": 200,
-    "note": "URL Railway directe et non declic.goodandright.fr : le domaine custom a saute le 22/08/2026 (CNAME et TXT absents de la zone Gandi, domaine detache cote Railway). L'application, elle, tourne. A rebasculer sur le domaine custom quand il sera remis en service."
-  },
-  {
-    "name": "Sitemap goodandright.fr",
-    "url": "https://www.goodandright.fr/sitemap.xml",
-    "expect": 200,
-    "must_contain": [
-      "<urlset"
-    ],
-    "min_count": {
-      "<loc>": 48,
-      "management-de-transition": 20,
-      "/secteurs/": 5
-    },
-    "note": "La generation du sitemap a ete desactivee dans Webflow entre novembre 2025 et septembre 2026. L'URL renvoyait 404, Google n'a jamais explore les 20 pages Management de transition, et personne ne s'en est apercu pendant dix mois. Etat au 17/09/2026 : 46 URLs dont 21 sous /management-de-transition/. Les seuils sont volontairement places sous ces valeurs pour tolerer la suppression d'une page isolee sans declencher d'alerte."
-  },
-  {
-    "name": "robots.txt goodandright.fr",
-    "url": "https://www.goodandright.fr/robots.txt",
-    "expect": 200,
-    "must_contain": [
-      "Sitemap: https://www.goodandright.fr/sitemap.xml"
-    ],
-    "note": "Le fichier repondait HTTP 200 avec un corps de zero octet et sans directive Sitemap. Un test portant sur le seul code de retour l'aurait declare en bonne sante : d'ou l'assertion de contenu."
-  }
+  "note": "La generation du sitemap a ete desactivee dans Webflow entre novembre 2025 et septembre 2026. L'URL renvoyait 404, Google n'a jamais explore les 20 pages Management de transition, et personne ne s'en est apercu pendant dix mois. Etat au 18/09/2026, apres la migration des practices en collection CMS : 52 URLs, dont 21 sous /management-de-transition/ et 12 sous /nos-practices-expertes/. Les seuils sont volontairement places sous ces valeurs pour tolerer la suppression d'une page isolee sans declencher d'alerte. Le seuil sur /secteurs/ a ete retire le 18/09/2026 : ce chemin n'existe plus, il redirige en 301 vers /nos-practices-expertes/."
+ },
+ {
+  "name": "robots.txt goodandright.fr",
+  "url": "https://www.goodandright.fr/robots.txt",
+  "expect": 200,
+  "must_contain": [
+   "Sitemap: https://www.goodandright.fr/sitemap.xml"
+  ],
+  "note": "Le fichier repondait HTTP 200 avec un corps de zero octet et sans directive Sitemap. Un test portant sur le seul code de retour l'aurait declare en bonne sante : d'ou l'assertion de contenu."
+ }
 ]
