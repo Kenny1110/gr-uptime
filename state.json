@@ -1,32 +1,32 @@
 {
   "CRM Good & Right": {
-    "up": false,
-    "detail": "erreur TimeoutError: The read operation timed out",
-    "checked": "06/10/2026 10:30 UTC"
+    "up": true,
+    "detail": "HTTP 200",
+    "checked": "06/10/2026 16:56 UTC"
   },
   "Diagnostic e-facture": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "06/10/2026 10:30 UTC"
+    "checked": "06/10/2026 16:56 UTC"
   },
   "Blog": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "06/10/2026 10:30 UTC"
+    "checked": "06/10/2026 16:56 UTC"
   },
   "Le Declic": {
     "up": true,
     "detail": "HTTP 200",
-    "checked": "06/10/2026 10:30 UTC"
+    "checked": "06/10/2026 16:56 UTC"
   },
   "Sitemap goodandright.fr": {
     "up": true,
     "detail": "HTTP 200, contenu conforme",
-    "checked": "06/10/2026 10:30 UTC"
+    "checked": "06/10/2026 16:56 UTC"
   },
   "robots.txt goodandright.fr": {
     "up": true,
     "detail": "HTTP 200, contenu conforme",
-    "checked": "06/10/2026 10:30 UTC"
+    "checked": "06/10/2026 16:56 UTC"
   }
 }
